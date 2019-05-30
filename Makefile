@@ -1,5 +1,5 @@
 #########################################
-# Created by Jata Ellen, Jeremy Robichaud
+# Created by Jata MacCabe, Jeremy Robichaud
 ##########################################
 
 # compile with gcc, change this to clang if you prefer
