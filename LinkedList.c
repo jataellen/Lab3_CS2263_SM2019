@@ -11,40 +11,40 @@ struct Node_t_t
 {
 char *value;
 struct Node_t_t *next;
-}
+};
 
 // c r e a t e the s h o r t f o rm
-typedefstruct Node_t_t Node_t;
+typedef struct Node_t_t Node_t;
 
-// f u n c ti o n t em pl a t e s
-Node_t *newNode (const char *value, Node_t *next);
-Node_t *deleteNode ( Node_t *current ,char **value);
-bool pop (Node_t **head, char **value);
-bool push (Node_t **head, const char *value);
+// // f u n c ti o n t em pl a t e s
+// Node_t *newNode (const char *value, Node_t *next);
+// Node_t *deleteNode ( Node_t *current ,char **value);
+// bool pop (Node_t** head, char** value);
+// bool push (Node_t** head, const char* value);
 
 
 // use void as params to silence gcc warnings
 int main (void)
 {
-// i n i t i a l i z e our t hi n g s
-Node_t *Stack = NULL;
-char buffer [BUFFER_SIZE] = { 0 } ;
-// f i l l our s t a c k from the u s e r i n p u t
-while ( 1 == scanf ( "%s " , buffer))
-{
-push(&Stack , buffer);
-}
-// w ri t e out the s e n t e n c e i n r e v e r s e o r d e r
-while ( Stack != NULL)
-{
-char *str = pop(&Stack);
-if (str)
-{
-printf ( "%s " , str);
-free(str) ;
-}
-}
-return EXIT_SUCCESS;
+  // i n i t i a l i z e our t hi n g s
+  Node_t *Stack = NULL;
+  char buffer [BUFFER_SIZE] = { 0 } ;
+  // f i l l our s t a c k from the u s e r i n p u t
+  while ( 1 == scanf ( "%s " , buffer))
+  {
+    push(&Stack , buffer);
+  }
+  // w ri t e out the s e n t e n c e i n r e v e r s e o r d e r
+  while ( Stack != NULL)
+  {
+    char *str = pop(&Stack);
+    if (str)
+    {
+      printf ( "%s " , str);
+      free(str) ;
+    }
+  }
+  return EXIT_SUCCESS;
 }
 /* *************
 * TODO: Fi ni s h implementing t h e s e f u n c t i o n s
@@ -57,16 +57,33 @@ return EXIT_SUCCESS;
 */
 Node_t *newNode ( const char *value , Node_t *next)
 {
-return NULL;
+  //Creates Node with assigned values
+  Node_t Node;
+  Node_t *Node_pointer = malloc(sizeof(Node_t));
+  const char *value_pointer = malloc(sizeof(value));
+
+  if(value_pointer == NULL || Node_pointer == NULL){
+    return NULL;
+  }
+  *(value_pointer) = *(value);
+  *(Node_pointer) = Node;
+  *(Node_pointer).next = next;
+  *(Node_pointer).value = value;
+
+  return &Node_pointer;
 }
 /***
 * pu t s the c u r r e n t node s t r i n g p oi n t e r a t the ` value ` parameter
 * f r e e ' s the ` c u r r e n t ` Node .
 * and r e t u r n the next node .
 */
-Node_t * deleteNode ( Node_t *current , char **value )
+Node_t *deleteNode (Node_t *current , char **value )
 {
-return NULL;
+  Node_t *Node_pointer = *(current).next;
+  *(value) = *(current).value;
+  free(current);
+
+  return &Node_pointer;
 }
 /*
 2
@@ -75,26 +92,49 @@ return NULL;
 * pu t s the popped s t r i n g onto ` value `
 * r e t u r n t r u e on s u c c e s s
 */
-bool pop(Node_t **Stack , chr **value)
+bool pop(Node_t **Stack , char **value)
 {
-return false;
+  Node_t *Prev_Node = NULL;
+  Node_t *Current_Node = *(Stack);
+
+  if(*(Current_Node) == NULL){
+    return false;
+  }
+
+  while(*(Current_Node).next != NULL){
+      *(Prev_Node) = *(Current_Node);
+      *(Current_Node) = *(Current_Node.next);
+  }
+
+  if(Prev_Node == NULL){
+    *(*(Stack)) = deleteNode(Current_Node, value);
+    return true;
+  }
+
+  Prev_Node.next = deleteNode(Current_Node, value);
+
+  return true;
 }
 /**
 * Push the s t r i n g t o the top o f the s t a c k u si n g newNode
 * update the top o f the s t a c k
 * r e t u r n t r u e i f e v e r y t hi n g i s s u c c e s s f u l l
 */
-bool push( Node_t **Stack , const char *value)
+bool push(Node_t **Stack , const char *value)
 {
-return false;
+  Node_t *New_Node = newNode(value, NULL);
+  Node_t *Current_Node = *(Stack);
+
+  if(*(Current_Node) == NULL){
+    *(Current_Node) = *(New_Node);
+    return true;
+  }
+
+  while(*(Current_Node).next != NULL){
+      *(Current_Node) = *(Current_Node.next);
+  }
+
+  *(Current_Node).next = New_Node;
+
+  return true;
 }
-
-
-
-/**
-• Create the file Makefile with the folowing code inside
-# TODO: add t a r g e t s t o c ompile Li n k e dLi s t . c
-# TODO: add a t a r g e t f o r each . i n p u t f i l e i n the Data d i r e c t o r y t o run the c ompiled Li n k e dLi s t
-program with the t e s t s i n . / Data
-# TODO: add a t a r g e t t h a t can run a l l the t e s t s above .
-*/
