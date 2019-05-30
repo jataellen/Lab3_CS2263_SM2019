@@ -2,7 +2,7 @@
  *
  * Sentence reversal program using Linked List based Stack
  *
- ********************/
+ *******************/
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -54,7 +54,6 @@ int main(void)
 
     return EXIT_SUCCESS;
 }
-
 /**************
  * TODO: Finish implementing these functions
  */
@@ -72,9 +71,9 @@ Node_t *newNode(const char *value, Node_t *next)
     return NULL;
   }
 
-  nd -> value = *value;
+  nd -> value = strdup(value);
   nd -> next = next;
-  return &nd;
+  return nd;
 }
 
 /**
@@ -88,7 +87,7 @@ Node_t *deleteNode(Node_t *current, char **value)
     *(value) = current->value;
     free(current);
 
-    return &Node_pointer;
+    return Node_pointer;
 }
 
 /**
@@ -99,14 +98,11 @@ Node_t *deleteNode(Node_t *current, char **value)
  */
 bool pop(Node_t **Stack, char **value)
 {
-    Node_t *p = *(Stack);
-    Node_t *temp = p;
-    if (p == NULL) /* empty list, do nothing */
+    if ((*Stack) == NULL) /* empty list, do nothing */
       return false;
 
       // Set Stack 0 = Stack 1
-    p = p->next;
-    free(temp);
+    (*Stack) = deleteNode((*Stack), value);
 
     return true;
 }
@@ -118,13 +114,12 @@ bool pop(Node_t **Stack, char **value)
  */
 bool push(Node_t **Stack, const char *value)
 {
-  Node_t *p = *(Stack);
+  Node_t *p = newNode(value,(*Stack));;
+
   if (p==NULL){
-    *(Stack) = newNode(value, NULL);
+
+    return false;
   }
-  while(p->next != NULL){
-    p = p->next;
-  }
-  p->next = newNode(value, NULL);
+  (*Stack) = p;
   return true;
 }
